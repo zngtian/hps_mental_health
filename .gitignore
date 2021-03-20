@@ -3,7 +3,7 @@
 *.log
 tmp/
 
-input_data/
+# input_data/
 output_*/
 
 # Compiled
