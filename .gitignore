@@ -1,10 +1,11 @@
 .DS_Store
 .idea
 *.log
-tmp/
+temp/
+
 
 # input_data/
-output_*/
+# output_*/
 
 # Compiled
 *.elc

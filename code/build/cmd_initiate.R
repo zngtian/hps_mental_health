@@ -16,8 +16,9 @@ package.check <- lapply(
     }
 )
 
-dirs <- c("input_data",
-          "output_data",
-          "output_img",
-          "output_files")
-tmp <- lapply(dirs, function(x) if (!dir.exists(x)) dir.create(x))
+
+## dirs <- c("input_data",
+##           "output_data",
+##           "output_img",
+##           "output_files")
+## tmp <- lapply(dirs, function(x) if (!dir.exists(x)) dir.create(x))
