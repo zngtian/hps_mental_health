@@ -1,37 +1,37 @@
-# select_tidy_puf <- function(df.puf,
-#                             vars.use = NULL,
-#                             vars.selstr = NULL,
-#                             vars.meta = c("scram", "week", "est_st", "pweight"),
-#                             exclude.18y = TRUE,
-#                             long.format = TRUE) {
-#
-#     ## exclude people whose age < 18
-#     if (exclude.18y) {
-#         df.puf <- df.puf %>%
-#             filter((week <= 21 & tbirth_year <= 2002) | (week > 21 & tbirth_year <= 2003))
-#     }
-#
-#     if (!is.null(vars.use)) {
-#         df <- df.puf %>%
-#             select(all_of(c(vars.meta, vars.use)))
-#     }
-#
-#     if (!is.null(vars.selstr)) {
-#         sel.expr <- rlang::parse_expr(vars.selstr)
-#         df <- df.puf %>%
-#             select(all_of(vars.meta), {{ sel.expr }})
-#     }
-#
-#     if (long.format) {
-#         ## convert the long format for easy aggregation
-#         df <- df %>%
-#             pivot_longer(cols = -any_of(vars.meta),
-#                          names_to = "vars",
-#                          values_to = "value")
-#     }
-#
-#     return(df)
-# }
+select_tidy_puf <- function(df.puf,
+                            vars.use = NULL,
+                            vars.selstr = NULL,
+                            vars.meta = c("scram", "week", "est_st", "pweight"),
+                            exclude.18y = TRUE,
+                            long.format = TRUE) {
+
+    ## exclude people whose age < 18
+    if (exclude.18y) {
+        df.puf <- df.puf %>%
+            filter((week <= 21 & tbirth_year <= 2002) | (week > 21 & tbirth_year <= 2003))
+    }
+
+    if (!is.null(vars.use)) {
+        df <- df.puf %>%
+            select(all_of(c(vars.meta, vars.use)))
+    }
+
+    if (!is.null(vars.selstr)) {
+        sel.expr <- rlang::parse_expr(vars.selstr)
+        df <- df.puf %>%
+            select(all_of(vars.meta), {{ sel.expr }})
+    }
+
+    if (long.format) {
+        ## convert the long format for easy aggregation
+        df <- df %>%
+            pivot_longer(cols = -any_of(vars.meta),
+                         names_to = "vars",
+                         values_to = "value")
+    }
+
+    return(df)
+}
 
 
 #' A helper function to add US count when state counts are computed.
