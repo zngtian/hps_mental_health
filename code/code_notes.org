@@ -1,0 +1,58 @@
+#+TITLE: Coding Notes
+#+AUTHOR: Zheng Tian
+#+EMAIL: zngtian@gmail.com
+#+DATE:
+#+OPTIONS: H:3 num:2 toc:nil ^:{}
+#+PROPERTY: header-args:R  :session *R*
+#+FILETAGS:
+
+* Overview
+
+The coding development of the project contains three modules:
+- The [[file:build][build]] module :: This module contains the code for data curation.
+- The [[file:analysis][analysis]] module :: This module contains the code for any analysis, including
+  exploratory analysis, regression analysis, etc.
+- The [[file:report][report]] module :: This module contains Rmd files for reporting.
+
+
+* The [[file:build][build]] module
+
+** [[file:build/initiate.R][initiate.R]]
+
+This file sets up the =build= module. It performs the following tasks
+- Loading packages. If a package is not installed, it will install it.
+- Making directories: =input_data= and =output_data=
+  - [[file:build/input_data][input_data]] :: It contains all raw datasets.
+  - [[file:build/output_data][output_data]]  :: It contains all datasets from the code in this module that
+    will be used in the ~analysis~ module.
+
+
+** [[file:build/functions.R][functions.R]]
+
+This file contains the functions that could be used repeatedly in the project.
+
+
+** [[file:build/compute_mental_state_variables.R][compute_mental_state_variables.R]]
+
+This script calculates the state-level mental health variables. Currently, we
+include the following variables
+- ~anxious~
+- ~worry~
+- ~interest~
+- ~down~
+- ~expctloss~
+- ~curfoodsuf~
+- ~tenure~
+- ~mortconf~
+
+The output of this script are currently two csv files, one
+- =output_data/mental_state_origcateg.csv=: It contains the original variables with the
+  original categories. New variables are the count, ratio, and total of the HPS variables.
+- =output_data/mental_state_aggcateg.csv=: It contains the new variables with
+  the aggregated categories.
+
+** [[file:build/compute_phq_scores.R][compute_phq_scores.R]]
+
+This script calculates the PHQ scores for mental health.
+
+The output of this script is a csv file, =output_data/phq_individual_level.csv=.
