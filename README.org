@@ -1,0 +1,19 @@
+#+TITLE: The Research Project on Mental Health with the Household Pulse Survey
+#+AUTHOR: Zheng Tian
+#+EMAIL: zngtian@gmail.com
+#+DATE:
+#+OPTIONS: H:3 num:2 toc:nil ^:{}
+#+FILETAGS: hps_mental
+
+
+* Overview
+
+This project is to examine the mental health condition in the U.S. during the
+pandemic.
+
+The input data file for the original PUF data can be downloaded and created with
+the code in the other repository: https://github.com/zngtian/household_pulse.git.
+
+* Code development
+
+See [[file:code/code_notes.org][code/code_notes.org]] for details on code development
