@@ -23,20 +23,24 @@ compute_aggregated_variables <- function(params) {
 
     vars.grp = c("week", "est_st")
 
+    ## Compute the count weighted count for each original category of the
+    ## variable of interest.
     df <- compute_group_count(
         df.puf     = df.puf,
         vars.count = var.use,
         vars.group = vars.grp,
         var.wt     = "pweight")
 
+    ## use the cleaned data for the steps following
     df.clean <- df$clean
     df.miss <- df$missing
 
+    ## Compute the total count of the universe corresponding to the var.use
     df.total <- df.clean %>%
         ## add across the grouping variables
         count(across({{ vars.grp }}), wt = count, name = "total")
 
-    ## join with the count
+    ## join with the count and compute the ratio
     df.rate <- left_join(df.clean, df.total, by = vars.grp) %>%
         mutate(rate = count / total)
 
@@ -84,4 +88,13 @@ df.mental.noagg <- map_dfr(df.ls, "noagg")
 df.mental.agg <- map(df.ls, "agg") %>%
     reduce(left_join, by = c("week", "est_st"))
 
+## Since the universe of people who have no confidence in paying mortgage and
+## rents are people who answered 2 and 3 in the question about tneure. To make
+## the universe of people who have no confidence to all the population, I need
+## to calculate another kind of rate.
+df.mental.agg <- df.mental.agg %>%
+    mutate(nomortconf.rate.allpop = nomortconf.rate * payrentmort.rate)
 
+
+write_csv(df.mental.noagg, "output_data/mental_state_origcateg.csv")
+write_csv(df.mental.agg, "output_data/mental_state_aggcateg.csv")

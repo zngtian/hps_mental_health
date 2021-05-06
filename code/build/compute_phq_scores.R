@@ -9,27 +9,6 @@ vars.meta <- c("scram", "week", "est_st", "pweight")
 vars.phq <- c("anxious", "interest", "down", "worry")
 
 ## Filter out NA, -88, and -99 for all variables -----------------------------------------------------------------
-##' Remove non-response items.
-##'
-##' @param df the PUF data frame
-##' @param vars.use a vector of strings for variable names
-##' @return
-remove_missing <- function(df, vars.use) {
-  cond <- map(vars.use,
-              function(var)
-                sprintf("(%s %%in%% c(-88, -99) | is.na(%s))", var, var))
-  ## combine all conditions
-  cond <- str_c(cond, collapse = " | ")
-  ## parse the string to an expression
-  cond <- rlang::parse_expr(cond)
-
-  df.miss  <- df %>% filter(eval(cond))
-  df.clean <- df %>% filter(!eval(cond))
-
-  return(list(clean = df.clean,
-              missing = df.miss))
-}
-
 df <- df.puf %>%
     select(all_of(c(vars.meta, vars.phq))) %>%
     remove_missing(vars.use = vars.phq)
@@ -39,9 +18,7 @@ df.miss.phq <- df$missing
 ## the following work is based on this cleaned data
 df.phq <- df$clean
 
-
 ## Compute PHQ scores ----------------------------------------------------------------------------------------
-
 compute_phq_scores <- function(data, vars.phq) {
 
     stopifnot(all(vars.phq %in% names(data)))
@@ -109,3 +86,5 @@ compute_phq_scores <- function(data, vars.phq) {
 }
 
 df.phq <- compute_phq_scores(df.phq, vars.phq)
+
+write_csv(df.phq, "output_data/phq_individual_level.csv")

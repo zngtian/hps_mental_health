@@ -2,9 +2,9 @@
 .idea
 *.log
 temp/
-archive/
-input_data/
-output_data/
+/archive/
+/input_data/
+/output_data/
 
 
 # input_data/
@@ -355,3 +355,6 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
+/code/build/output_data/
+/code/build/archive/*.csv
+/code/build/archive/
