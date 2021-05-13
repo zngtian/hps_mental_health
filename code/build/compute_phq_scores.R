@@ -32,7 +32,7 @@ compute_phq_scores <- function(data, vars.phq) {
         ## This recoding places responses into a value set more commonly used
         ## by clinicians and researchers in Psychology.
         mutate(
-            valid_phq2 = ifelse(interest >= 0 & down >= 1, 1, ifelse(is.na(interest) | is.na(down), 0, NA)),
+            valid_phq2 = ifelse(interest >= 0 & down >= 0, 1, ifelse(is.na(interest) | is.na(down), 0, NA)),
             valid_gad2 = ifelse(anxious >= 0 & worry >= 0, 1, ifelse(is.na(anxious) | is.na(worry), 0, NA)),
             valid_phq4 = ifelse(valid_phq2 == 1 & valid_gad2 == 1, 1, ifelse(valid_phq2 == 0 | valid_gad2 == 0, 0, NA))
         ) %>%
@@ -68,10 +68,10 @@ compute_phq_scores <- function(data, vars.phq) {
         mutate(
             category_phq4 =
                 case_when(
-                    composite_phq4 <=2 ~ "Normal",
-                    composite_phq4 >=3 && composite_phq4 <=5 ~ "Mild",
-                    composite_phq4 >=6 && composite_phq4 <=8 ~ "Moderate",
-                    composite_phq4 >=9 && composite_phq4 <=12 ~ "Severe",
+                    composite_phq4 <= 2 ~ "Normal",
+                    composite_phq4 >= 3 & composite_phq4 <= 5 ~ "Mild",
+                    composite_phq4 >= 6 & composite_phq4 <= 8 ~ "Moderate",
+                    composite_phq4 >= 9 & composite_phq4 <= 12 ~ "Severe",
                     TRUE ~ NA_character_)
         ) %>%
         mutate(
