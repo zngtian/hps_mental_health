@@ -66,13 +66,18 @@ compute_phq_scores <- function(data, vars.phq) {
         ## Severe categories would be referred for additional mental health resources in
         ## a clinical setting. #####
         mutate(
-            category_phq4 =
-                case_when(
-                    composite_phq4 <= 2 ~ "Normal",
-                    composite_phq4 >= 3 & composite_phq4 <= 5 ~ "Mild",
-                    composite_phq4 >= 6 & composite_phq4 <= 8 ~ "Moderate",
-                    composite_phq4 >= 9 & composite_phq4 <= 12 ~ "Severe",
-                    TRUE ~ NA_character_)
+            category_phq4_normal = ifelse(composite_phq4 <=2, 1, ifelse(is.na(composite_phq4), NA, 0)),
+            category_phq4_mild = ifelse(composite_phq4 >=3 & composite_phq4<=5, 1, ifelse(is.na(composite_phq4), NA, 0)),
+            category_phq4_moderate = ifelse(composite_phq4 >=6 & composite_phq4<=8, 1, ifelse(is.na(composite_phq4), NA, 0)),
+            category_phq4_severe = ifelse(composite_phq4 >=9 & composite_phq4<=12, 1, ifelse(is.na(composite_phq4), NA, 0)),
+        ) %>%
+        mutate(category_phq4 =
+                   case_when(
+                       category_phq4_normal == 1 ~ "Normal",
+                       category_phq4_mild == 1 ~ "Mild",
+                       category_phq4_moderate == 1 ~ "Moderate",
+                       category_phq4_severe == 1 ~ "Severe",
+                       TRUE ~ NA_character_)
         ) %>%
         mutate(
             catnum_phq4 =
@@ -84,6 +89,7 @@ compute_phq_scores <- function(data, vars.phq) {
                     TRUE ~ NA_real_)
         )
 }
+
 
 df.phq <- compute_phq_scores(df.phq, vars.phq)
 
