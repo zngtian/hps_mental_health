@@ -54,7 +54,7 @@ compute_phq_scores <- function(data, vars.phq) {
         mutate(
             clinical_phq2 = ifelse(composite_phq2 >= 3, 1, ifelse(is.na(composite_phq2), NA, 0)),
             clinical_gad2 = ifelse(composite_gad2 >= 3, 1, ifelse(is.na(composite_gad2), NA, 0)),
-            clinical_phq4 = ifelse(composite_phq4 <= 6, 1, ifelse(is.na(composite_phq4), NA, 0))
+            clinical_phq4 = ifelse(composite_phq4 >= 6, 1, ifelse(is.na(composite_phq4), NA, 0))
         ) %>%
         ## Create categorical classifications of anxiety-depression using PHQ-4 clinical
         ## diagnostic scale composite scores. If respondent has a composite
